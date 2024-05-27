@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <!-- Importing BPMN font and diagram styles -->
+  <link rel="stylesheet" href="vendor/bpmn-js/assets/bpmn-font/css/bpmn.css" />
+  <link rel="stylesheet" href="vendor/bpmn-js/assets/diagram-js.css" />
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <!-- Bootstrap Icon CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+  <style type="text/css">
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #canvas {
+      width: 1200px;
+      height: 600px;
+      border: 1px solid #000; /* Optional: to visualize the canvas boundary */
+      margin: auto;
+      overflow: hidden;
+      position: relative;
+    }
+
+
+    .icon-custom-leftSeat {
+      background-image: url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMDAnIGhlaWdodD0nMTAwJz48cmVjdCB4PSc1JyB5PScxMCcgd2lkdGg9JzI1JyBoZWlnaHQ9JzIwJyBzdHJva2U9J2JsYWNrJyBzdHJva2Utd2lkdGg9JzEnIGZpbGw9J25vbmUnIC8+PGNpcmNsZSBjeD0nMzgnIGN5PScyMCcgcj0nOCcgc3Ryb2tlPSdibGFjaycgc3Ryb2tlLXdpZHRoPScxJyBmaWxsPSdub25lJyAvPjwvc3ZnPiA=");
+    }
+    .icon-custom-rightSeat {
+      background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%22%20height%3D%22100%22%3E%0A%20%20%3C!--%20%E5%9C%86%E5%BD%A2%20--%3E%0A%20%20%3Ccircle%20cx%3D%2210%22%20cy%3D%2220%22%20r%3D%228%22%20stroke%3D%22black%22%20stroke-width%3D%221%22%20fill%3D%22none%22%20%2F%3E%0A%20%20%3C!--%20%E7%9F%A9%E5%BD%A2%20--%3E%0A%20%20%3Crect%20x%3D%2218%22%20y%3D%2210%22%20width%3D%2225%22%20height%3D%2220%22%20stroke%3D%22black%22%20stroke-width%3D%221%22%20fill%3D%22none%22%20%2F%3E%0A%3C%2Fsvg%3E%0A");
+    }
+    .icon-custom-rectangle {
+      background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%22%20height%3D%22100%22%3E%0A%20%20%3Crect%20x%3D%228%22%20y%3D%2215%22%20width%3D%2230%22%20height%3D%2220%22%20stroke%3D%22black%22%20stroke-width%3D%221%22%20fill%3D%22none%22%20%2F%3E%0A%3C%2Fsvg%3E%0A");
+    }
+    .icon-custom-test {
+      background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22100%22%20height%3D%22100%22%3E%0A%20%20%3Crect%20x%3D%228%22%20y%3D%2215%22%20width%3D%2230%22%20height%3D%2220%22%20stroke%3D%22black%22%20stroke-width%3D%221%22%20fill%3D%22none%22%20%2F%3E%0A%3C%2Fsvg%3E%0A");
+    }
+    /* Adjust the width and height of the palette (toolbar) */
+    .djs-palette {
+      width: 250px; /* Adjust width as needed */
+      height: auto; /* Adjust height as needed */
+    }
+    .panel {
+      background-color: #fafafa;
+      border: solid 1px #ccc;
+      border-radius: 10px;
+      font-family: 'Arial', sans-serif;
+      padding-bottom: 10px;
+      position: absolute;
+      width: 1200px;
+      margin-left: 120px;
+    }
+
+    #containerCss{
+      padding-top: 70px;
+    }
+  </style>
+
+  <title>custom elements example - bpmn-js-examples</title>
+</head>
+<body>
+
+  <nav class="navbar fixed-top  bg-dark">
+    <div class="container-fluid">
+        <a href="#" class="navbar-brand text-light">SmartSeating 座位管理系统</a>
+        <ul class="navbar-nav d-flex flex-row align-items-center">
+            <li class="nav-item">
+                <button id="downloadButton" class="btn btn-dark"><i class="bi bi-download"></i></button>
+            </li>
+            <li class="nav-item">
+                <button id="downloadsvg" class="btn btn-dark"><i class="bi bi-image"></i></button>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<div id="containerCss" class="container-fluid">
+  <div id="canvas">
+  </div>
+</div>
+<div class="panel">
+
+  <!-- <button id="downloadxml" class="buttonArea">Download xml</button> -->
+</div>
+
+
+  
+  <!-- Including the JavaScript file that handles the BPMN diagram rendering -->
+  <script src="./index.js"></script>
+</body>
+</html>
